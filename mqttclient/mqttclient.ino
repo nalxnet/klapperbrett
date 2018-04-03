@@ -79,18 +79,12 @@ const boolean MUE[7] = {false, true, true, false, false, true, true};
 const boolean checkState = true;
 boolean state[18][7];
 
-// Spielplatz
-int tickCounter = 0;
-int circleIndex = 1;
-boolean helloActive = false;
-
 // TODO Optimierung
 // * Das mittlere Segment flipt an manchen Stellen nur unzuverlässig zurück. Scheint nicht an der Pulslänge oder dem Abstand des Pulses zu liegen. Mechanischer Verschleiß?
 // * Globale Variablen für Pin-Adressen auf byte umstellen?
 // * Arrays um ungenutzte Zeilen reduzieren und Adressierung entsprechend umstellen
 
 // TODO Features
-// * MQTT-Nachrichten vor Verarbeitung komplett (oder bis zum 14. Zeichen) einlesen. Spezielle Befehle verarbeiten.
 // * Funktion, die beliebig langen String in einer Zeile schreibt. Wenn String länger als Zeile muss dieser durchlaufen.
 
 void setup() {
@@ -155,11 +149,15 @@ void callback(char* topic, byte* payload, unsigned int length) {
     msg += receivedChar;
   }
 
-  writeString(msg);
-
-  if (msg.length() < 13) {
-    for (int i = msg.length(); i < 14; i++) {
-      clearAt(getSpalte(i));
+  if (msg.equals("s77")) {
+    writeSection77();
+  } else {
+    writeString(msg);
+    
+    if (msg.length() < 13) {
+      for (int i = msg.length(); i < 14; i++) {
+        clearAt(getSpalte(i));
+      }
     }
   }
 }
@@ -261,19 +259,6 @@ void writeVersion() {
   writeChar(17,'0');
   writeChar(15,'0');
   writeChar(14,'3');
-}
-
-void writeHello() {
-  circleIndex = 1;
-  tickCounter = 0;
-  
-  writeChar(5,'h');
-  writeChar(4,'a');
-  writeChar(3,'l');
-  writeChar(2,'l');
-  writeChar(1,'o');
-
-  helloActive = true;
 }
 
 void writeSection77() {
