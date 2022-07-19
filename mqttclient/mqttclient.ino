@@ -10,17 +10,17 @@ PubSubClient client(espClient);
 
 // Definition der Anschlüsse
 // FP2800A unten: Spalte/Element
-const int FP_SPALTE_A0 = D5;
-const int FP_SPALTE_A1 = D6;
-const int FP_SPALTE_A2 = D7;
-const int FP_SPALTE_B0 = D8;
-const int FP_SPALTE_B1 = 1; // TX, GPIO1
+const int FP_SPALTE_A0 = 1; // TX, GPIO1
+const int FP_SPALTE_A1 = D1;
+const int FP_SPALTE_A2 = D2;
+const int FP_SPALTE_B0 = D3;
+const int FP_SPALTE_B1 = D4; // BUILTIN_LED
 // FP2800A oben: Zeile/Segment
-const int FP_ZEILE_A0 = D0;
-const int FP_ZEILE_A1 = D1;
-const int FP_ZEILE_A2 = D2;
-const int FP_ZEILE_B0 = D3;
-const int FP_ENABLE = D4; // BUILTIN_LED
+const int FP_ZEILE_A0 = D8;
+const int FP_ZEILE_A1 = D7;
+const int FP_ZEILE_A2 = D6;
+const int FP_ZEILE_B0 = D5;
+const int FP_ENABLE = D0;
 
 // Zeile/Segment wird nur mit 3 Bit addressiert, Bit 4 steuert SET/UNSET und 5 wird nicht verwendet
 const int ZEILE_ADDR[3] =  { FP_ZEILE_A0, FP_ZEILE_A1, FP_ZEILE_A2 };
@@ -110,7 +110,7 @@ void setup() {
   digitalWrite(FP_SPALTE_A1, HIGH);
   digitalWrite(FP_SPALTE_A2, HIGH);
   digitalWrite(FP_SPALTE_B0, HIGH);
-  digitalWrite(FP_SPALTE_B1, HIGH);
+  digitalWrite(FP_SPALTE_B1, LOW);
   digitalWrite(FP_ZEILE_A0, HIGH);
   digitalWrite(FP_ZEILE_A1, HIGH);
   digitalWrite(FP_ZEILE_A2, HIGH);
@@ -171,7 +171,7 @@ void reconnect() {
     } else {
       connectWiFi();
       writeDisconnect();
-      delay(2000);
+  delay(2000);
       
     }
   }
@@ -476,10 +476,9 @@ void fire() {
   digitalWrite(FP_SPALTE_A1, HIGH);
   digitalWrite(FP_SPALTE_A2, HIGH);
   digitalWrite(FP_SPALTE_B0, HIGH);
-  digitalWrite(FP_SPALTE_B1, HIGH);
+  digitalWrite(FP_SPALTE_B1, LOW);
   digitalWrite(FP_ZEILE_A0, HIGH);
   digitalWrite(FP_ZEILE_A1, HIGH);
   digitalWrite(FP_ZEILE_A2, HIGH);
   digitalWrite(FP_ZEILE_B0, HIGH);
 }
-
